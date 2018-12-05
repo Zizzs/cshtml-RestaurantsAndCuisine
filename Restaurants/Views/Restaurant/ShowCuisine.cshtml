@@ -1,0 +1,20 @@
+@using Restaurants.Models;
+@{
+  Layout = "_Layout";
+}
+
+<div class="container">
+   <p>Current Restaurants in Cuisine: @Model["cuisine"][0].GetName()</p>
+    <ul>
+        @if (@Model["restaurant"].Count != 0)
+        {
+            @foreach(RestaurantClass restaurant in @Model["restaurant"])
+            {
+                <li><a href='/restaurants/@restaurant.GetId()'>@restaurant.GetName()</a></li>
+            }
+        }
+    </ul>
+    
+    <a href="/restaurants">Home</a>
+    <a href='/restaurants/cuisine/@Model["cuisine"][0].GetId()/delete'>Clear this cuisine</a>
+</div>

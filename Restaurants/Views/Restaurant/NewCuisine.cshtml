@@ -1,0 +1,17 @@
+@using Restaurants.Models;
+@{
+  Layout = "_Layout";
+}
+
+<div class="container">
+    <h3>Restaurant Finder</h3>
+    <p>Add the Cuisine to the Database.</p>
+    <form action = "/restaurants/newcuisine" method="post">
+        <label for='cuisineName'>Cuisine Name</label>
+        <input id='cuisineName' name='cuisineName' type='text' required><br>
+        <button type='submit'>Add Cuisine To Database</button>
+   </form>
+   <a href="/restaurants/newrestaurant">Click here for Restaurant Input</a>
+   <br>
+   <a href="/restaurants">Home</a>
+</div>

@@ -1,0 +1,13 @@
+@{
+  Layout = "_Layout";
+}
+
+<div class="container">
+    <h3>Restaurant Finder</h3>
+    <hr>
+    <p>@Model["restaurant"][0].GetName()</p>
+    <p>@Model["restaurant"][0].GetLocation()</p>
+    <p>@Model["cuisine"][0].GetName()</p>
+    <a href="/restaurants">Home</a>
+    <a href='/restaurants/@Model["restaurant"][0].GetId()/delete'>Clear this restaurant</a>
+</div>

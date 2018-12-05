@@ -1,0 +1,32 @@
+@using Restaurants.Models;
+@{
+  Layout = "_Layout";
+}
+
+<div class="container">
+    <h3>Restaurant Finder</h3>
+
+    <a href="/restaurants/newcuisine">Click here to add a Cuisine to the Database.</a>
+    <br>
+    <p>Current Cuisines in Database:</p>
+    <ul>
+    @if (@Model["cuisine"].Count != 0)
+    {
+        @foreach(CuisineClass cuisine in @Model["cuisine"])
+        {
+            <li><a href='/cuisine/@cuisine.GetId()'>@cuisine.GetName()</a></li>
+        }
+    }
+    </ul>
+    <a href="/restaurants/newrestaurant">Click here to add a Restaurant to the list.</a>
+    <p>Current Restaurants in Database:</p>
+    <ul>
+        @if (@Model["restaurant"].Count != 0)
+        {
+            @foreach(RestaurantClass restaurant in @Model["restaurant"])
+            {
+                <li><a href='/restaurants/@restaurant.GetId()'>@restaurant.GetName()</a></li>
+            }
+        }
+    </ul>
+</div>
