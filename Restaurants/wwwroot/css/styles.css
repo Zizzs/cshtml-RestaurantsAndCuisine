@@ -1,0 +1,47 @@
+#reviewBox
+{
+    height: 150px;
+    width: 250px;
+}
+
+.review
+{
+    width: 500px;
+}
+
+body
+{
+    background-color: black;
+    color: white;
+}
+
+button
+{
+    color: black;
+}
+
+input , textarea , select , option
+{
+    color: black;
+}
+
+label
+
+{
+    font-size: 16px;
+}
+
+.reviewText
+{
+    font-size: 20px;
+}
+
+.reviewAnswer
+{
+    margin-left:25px;
+}
+
+img
+{
+    width: 10px;
+}

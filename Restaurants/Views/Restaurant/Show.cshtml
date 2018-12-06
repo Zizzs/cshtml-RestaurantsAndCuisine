@@ -1,3 +1,5 @@
+@using Restaurants.Models;
+@using System.Collections.Generic;
 @{
   Layout = "_Layout";
 }
@@ -8,6 +10,33 @@
     <p>@Model["restaurant"][0].GetName()</p>
     <p>@Model["restaurant"][0].GetLocation()</p>
     <p>@Model["cuisine"][0].GetName()</p>
-    <a href="/restaurants">Home</a>
-    <a href='/restaurants/@Model["restaurant"][0].GetId()/delete'>Clear this restaurant</a>
+    <br>
+    <hr>
+    <br>
+    <a href="/restaurants">Home</a><br>
+    <a href='/restaurants/@Model["restaurant"][0].GetId()/delete'>Clear this restaurant</a><br>
+    <a href='/restaurants/@Model["restaurant"][0].GetId()/review'>View Reviews for this Restaurant</a>
+    <br>
+    <hr>
+    <br>
+    <form action='/restaurants/@Model["restaurant"][0].GetId()/review' method="post">
+        <label for='reviewName'>Enter your Name</label><br>
+        <input id='reviewName' name='reviewName' type='text' required><br>
+        <label for='reviewStar'>Rate This Restaurant (One to Five Stars)</label><br>
+        <label for='reviewStar'>1</label>
+        <input type="radio" name="reviewStar" value="1">
+        <label for='reviewStar'>2</label>
+        <input type="radio" name="reviewStar" value="2">
+        <label for='reviewStar'>3</label>
+        <input type="radio" name="reviewStar" value="3">
+        <label for='reviewStar'>4</label>
+        <input type="radio" name="reviewStar" value="4">
+        <label for='reviewStar'>5</label>
+        <input type="radio" name="reviewStar" value="5"><br>
+        <label for='reviewDescription'>Enter your Review:</label><br>
+        <textarea id="reviewBox" name="reviewDescription"></textarea><br>
+        <button type='submit'>Review This Restaurant</button>
+    </form>
+    <br>
+   
 </div>

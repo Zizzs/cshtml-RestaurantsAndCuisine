@@ -1,0 +1,48 @@
+@using Restaurants.Models;
+@using System.Collections.Generic;
+@{
+  Layout = "_Layout";
+}
+<div>
+<h1>Reviews for @Model["restaurant"][0].GetName()</h1>
+<br>
+ <hr>
+    <br>
+    @if (@Model["review"].Count != 0)
+    {
+      @foreach(ReviewClass review in @Model["review"])
+      {
+        <div class="review">
+          <p class="reviewText">Name:</p>
+          <p class="reviewAnswer"> @review.GetName()</p>
+          <p class="reviewText">Stars:</p>
+          @if (review.GetStars() == 1)
+          {
+          <p class="reviewAnswer"><img src="~/img/star.png"></p>
+          }
+          @if (review.GetStars() == 2)
+          {
+          <p class="reviewAnswer"><img src="~/img/star.png"><img src="~/img/star.png"></p>
+          }
+          @if (review.GetStars() == 3)
+          {
+          <p class="reviewAnswer"><img src="~/img/star.png"><img src="~/img/star.png"><img src="~/img/star.png"></p>
+          }
+          @if (review.GetStars() == 4)
+          {
+          <p class="reviewAnswer"><img src="~/img/star.png"><img src="~/img/star.png"><img src="~/img/star.png"><img src="~/img/star.png"></p>
+          }
+          @if (review.GetStars() == 5)
+          {
+          <p class="reviewAnswer"><img src="~/img/star.png"><img src="~/img/star.png"><img src="~/img/star.png"><img src="~/img/star.png"><img src="~/img/star.png"></p>
+          }
+          <p class="reviewText">Review:</p>
+          <p class="reviewAnswer"> @review.GetDescription()</p>
+        </div>
+        <br>
+        <p class="reviewText"><a href=/reviews/@review.GetId()/edit>Edit Review</a></p>
+        <hr>
+      }
+    }
+    <a href="/restaurants">Home</a>
+</div>

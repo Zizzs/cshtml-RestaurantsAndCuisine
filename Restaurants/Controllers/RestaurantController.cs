@@ -65,6 +65,35 @@ namespace Restaurants.Controllers
             return View(dick);
         }
 
+        [HttpPost("/restaurants/{id}/review")]
+        public ActionResult Show(string reviewName, int reviewStar, string reviewDescription, int id)
+        {
+            ReviewClass newReview = new ReviewClass(reviewName, reviewDescription, reviewStar, id);
+            newReview.Save();
+
+            Dictionary<string, object> dick = new Dictionary<string, object>();
+            List<RestaurantClass> restaurantList = RestaurantClass.FindById(id);
+            List<CuisineClass> cuisineList = CuisineClass.FindById(restaurantList[0].GetCuisineId());
+            List<ReviewClass> reviewList = ReviewClass.GetAllReviewsByRestaurantId(id);
+            dick.Add("restaurant", restaurantList);
+            dick.Add("cuisine", cuisineList);
+            dick.Add("review", reviewList);
+
+            return View("ShowReview", dick);
+        }
+
+        [HttpGet("/restaurants/{id}/review")]
+        public ActionResult ShowReview(int id)
+        {
+            Dictionary<string, object> dick = new Dictionary<string, object>();
+            List<RestaurantClass> restaurantList = RestaurantClass.FindById(id);
+            List<ReviewClass> reviewList = ReviewClass.GetAllReviewsByRestaurantId(id);
+            dick.Add("restaurant", restaurantList);
+            dick.Add("review", reviewList);
+
+            return View("ShowReview", dick);
+        }
+
         [HttpGet("/restaurants/{id}/delete")]
         public ActionResult Destroy(int id)
         {
@@ -89,6 +118,29 @@ namespace Restaurants.Controllers
             RestaurantClass.DeleteRestaurantByCuisineId(id);
             CuisineClass.DeleteCuisine(id);
             return View("Delete");
+        }
+
+        [HttpGet("/reviews/{id}/edit")]
+        public ActionResult ReviewEdit(int id)
+        {   
+            List<ReviewClass> findReview = ReviewClass.FindById(id);
+            return View("ReviewEdit", findReview);
+        }
+
+        [HttpPost("/reviews/{id}/edited")]
+        public ActionResult EditReview(int id, int reviewStar, string reviewDescription)
+        {
+            List<ReviewClass> review = ReviewClass.FindById(id);
+            review[0].EditDescription(id, reviewDescription);
+            review[0].EditStars(id, reviewStar);
+            int restId = review[0].GetRestaurantId();
+            Dictionary<string, object> dick = new Dictionary<string, object>();
+            List<RestaurantClass> restaurantList = RestaurantClass.FindById(restId);
+            List<ReviewClass> reviewList = ReviewClass.GetAllReviewsByRestaurantId(restId);
+            dick.Add("restaurant", restaurantList);
+            dick.Add("review", reviewList);
+
+            return View("ShowReview" , dick);
         }
     }
 }

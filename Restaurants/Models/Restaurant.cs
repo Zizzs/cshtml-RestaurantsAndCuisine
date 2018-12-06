@@ -5,6 +5,198 @@ using Restaurants;
 
 namespace Restaurants.Models
 {
+    public class ReviewClass
+    {
+        private int _id;
+        private string _name;
+        private string _description;
+        private int _stars;
+        private int _restaurantId;
+
+        public ReviewClass(int id, string name, string description, int stars, int restaurantId)
+        {
+            _id = id;
+            _name = name;
+            _description = description;
+            _stars = stars;
+            _restaurantId = restaurantId;
+        }
+
+        public ReviewClass(string name, string description, int stars, int restaurantId)
+        {
+            _name = name;
+            _description = description;
+            _stars = stars;
+            _restaurantId = restaurantId;
+        }
+
+         public int GetId()
+        {
+            return _id;
+        }
+
+        public int GetRestaurantId()
+        {
+            return _restaurantId;
+        }
+
+
+        public string GetName()
+        {
+            return _name;
+        }
+
+        public string GetDescription()
+        {
+            return _description;
+        }
+
+         public int GetStars()
+        {
+            return _stars;
+        }
+
+         public void Save()
+        {
+            MySqlConnection conn = DB.Connection();
+            conn.Open();
+            var cmd = conn.CreateCommand() as MySqlCommand;
+            cmd.CommandText = @"INSERT INTO reviews (name, description, stars, restaurantid) VALUES (@ReviewName , @ReviewDescription , @ReviewStars, @ReviewRestaurantId);";
+            cmd.Parameters.AddWithValue("@ReviewName" , this._name);
+            cmd.Parameters.AddWithValue("@ReviewDescription" , this._description);
+            cmd.Parameters.AddWithValue("@ReviewStars" , this._stars);
+            cmd.Parameters.AddWithValue("@ReviewRestaurantId" , this._restaurantId);
+            cmd.ExecuteNonQuery();
+
+            conn.Close();
+            if (conn != null)
+            {
+                conn.Dispose();
+            }
+        }
+
+        public static List<ReviewClass> GetAll()
+        {
+            List<ReviewClass> allReviewList = new List<ReviewClass> {};
+            MySqlConnection conn = DB.Connection();
+            conn.Open();
+            MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
+            cmd.CommandText = @"SELECT * FROM reviews;";
+            MySqlDataReader rdr = cmd.ExecuteReader() as MySqlDataReader;
+            while(rdr.Read())
+            {
+                int id = rdr.GetInt32(0);
+                string name = rdr.GetString(1);
+                string description = rdr.GetString(2);
+                int stars = rdr.GetInt32(3);
+                int restaurantId = rdr.GetInt32(4);
+                ReviewClass newReview = new ReviewClass(id, name, description, stars, restaurantId);
+                allReviewList.Add(newReview);
+                
+            }
+            conn.Close();
+            if (conn !=null)
+            {
+                conn.Dispose();
+            }
+            return allReviewList;
+        }
+
+        public static List<ReviewClass> GetAllReviewsByRestaurantId(int id)
+        {
+            List<ReviewClass> allReviews = new List<ReviewClass> {};
+            MySqlConnection conn = DB.Connection();
+            conn.Open();
+            MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
+            cmd.CommandText = @"SELECT * FROM reviews WHERE restaurantid = " + id + ";";
+            MySqlDataReader rdr = cmd.ExecuteReader() as MySqlDataReader;
+            while(rdr.Read())
+            {
+                int idz = rdr.GetInt32(0);
+                string name = rdr.GetString(1);
+                string description = rdr.GetString(2);
+                int stars = rdr.GetInt32(3);
+                int restaurantId = rdr.GetInt32(4);
+                ReviewClass newReview = new ReviewClass(idz, name, description, stars, restaurantId);
+                allReviews.Add(newReview);
+                
+            }
+            conn.Close();
+            if (conn !=null)
+            {
+                conn.Dispose();
+            }
+            return allReviews;
+        }
+
+         public static List<ReviewClass> FindById(int id)
+        {
+            List<ReviewClass> allReviewList = new List<ReviewClass> {};
+            MySqlConnection conn = DB.Connection();
+            conn.Open();
+            MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
+            cmd.CommandText = @"SELECT * FROM reviews WHERE id = " + id + ";";
+            MySqlDataReader rdr = cmd.ExecuteReader() as MySqlDataReader;
+            while(rdr.Read())
+            {
+                int idz = rdr.GetInt32(0);
+                string name = rdr.GetString(1);
+                string description = rdr.GetString(2);
+                int stars = rdr.GetInt32(3);
+                int restaurantId = rdr.GetInt32(4);
+                ReviewClass newReview = new ReviewClass(idz, name, description, stars, restaurantId);
+                allReviewList.Add(newReview);
+                
+            }
+            conn.Close();
+            if (conn !=null)
+            {
+                conn.Dispose();
+            }
+            return allReviewList;
+        }
+
+        public void EditStars(int id, int stars)
+        {
+            MySqlConnection conn = DB.Connection();
+            conn.Open();
+            var cmd = conn.CreateCommand() as MySqlCommand;
+            cmd.CommandText = @"UPDATE reviews SET stars = @newStars WHERE id = " + id + ";";
+            MySqlParameter oldStars = new MySqlParameter();
+            oldStars.ParameterName = "@newStars";
+            oldStars.Value = stars;
+            cmd.Parameters.Add(oldStars);
+            cmd.ExecuteNonQuery();
+            _stars = stars;
+            conn.Close();
+            if (conn != null)
+            {
+                conn.Dispose();
+            }
+        }
+
+        public void EditDescription(int id,string newDescription)
+        {
+            MySqlConnection conn = DB.Connection();
+            conn.Open();
+            var cmd = conn.CreateCommand() as MySqlCommand;
+            cmd.CommandText = @"UPDATE reviews SET description = @newDescription WHERE id = " + id + ";";
+            MySqlParameter description = new MySqlParameter();
+            description.ParameterName = "@newDescription";
+            description.Value = newDescription;
+            cmd.Parameters.Add(description);
+            cmd.ExecuteNonQuery();
+            _description = newDescription;
+            cmd.ExecuteNonQuery();
+            conn.Close();
+            if (conn != null)
+            {
+                conn.Dispose();
+            }
+        }
+
+        
+    }
     public class RestaurantClass
     {
         private int _id;
